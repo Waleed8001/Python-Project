@@ -1,46 +1,35 @@
 import streamlit as st
-import requests
+import random
 
-# Function to fetch a random word from an API
-def fetch_random_word():
-    response = requests.get("https://api.example.com/random_word")
-    if response.status_code == 200:
-        return response.json().get("word")
-    else:
-        return None
+def number_guessing_game():
+    st.title("Number Guessing Game")
 
-# Main function to run the game
-def word_guessing_game():
-    st.title("Word Guessing Game")
-    st.write("Try to guess the word!")
+    # Generate a random number between 1 and 100
+    secret_number = random.randint(1, 100)
 
-    # Fetch a random word from the API
-    word = fetch_random_word()
-    if not word:
-        st.error("Failed to fetch word from API. Please try again later.")
-        return
-
-    # Display placeholders for letters in the word
-    guessed_word = ["_" for _ in word]
-    st.write(" ".join(guessed_word))
-
-    # Game loop
+    # Initialize variables
+    guess = None
     attempts = 0
-    while "_" in guessed_word:
-        guess = st.text_input("Enter a letter:")
-        if len(guess) == 1:
-            if guess in word:
-                for i, letter in enumerate(word):
-                    if letter == guess:
-                        guessed_word[i] = guess
-                st.write(" ".join(guessed_word))
-            else:
-                st.write("Incorrect guess.")
-                attempts += 1
-        else:
-            st.write("Please enter only one letter.")
 
-    st.success(f"Congratulations! You guessed the word '{word}' in {attempts} attempts.")
+    st.write("I have selected a number between 1 and 100. Try to guess it!")
+
+    # Main game loop
+    while guess != secret_number:
+        # User input for guessing
+        guess = st.number_input("Enter your guess:", min_value=1, max_value=100, key='guess_input')
+
+        if st.button("Submit Guess"):
+            attempts += 1
+
+            # Check if the guess is correct
+            if guess == secret_number:
+                st.success(f"Congratulations! You guessed the correct number {secret_number} in {attempts} attempts.")
+            else:
+                st.info(f"Wrong guess! Try again.")
+
+    # Restart the game
+    if st.button("Play Again"):
+        number_guessing_game()
 
 # Run the game
-word_guessing_game()
+number_guessing_game()
