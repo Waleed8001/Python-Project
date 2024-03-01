@@ -16,7 +16,7 @@ def number_guessing_game():
     # Main game loop
     while guess != secret_number:
         # User input for guessing with a unique key
-        guess = st.number_input("Enter your guess:", min_value=1, max_value=100, key='guess_input')
+        guess = st.number_input("Enter your guess:", min_value=1, max_value=100)
 
         if st.button("Submit Guess" + str(attempts)):
             attempts += 1
