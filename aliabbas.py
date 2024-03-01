@@ -19,7 +19,8 @@ def number_guessing_game():
         input_key = f'guess_input_{attempts}'
         guess = st.number_input("Enter your guess:", min_value=1, max_value=100, key=input_key)
 
-        if st.button(f"Submit Guess {attempts}", key=f"submit_button_{attempts}"):
+        button_key = f'submit_button_{attempts}'
+        if st.button(f"Submit Guess {attempts}", key=button_key):
             attempts += 1
 
             # Check if the guess is correct
